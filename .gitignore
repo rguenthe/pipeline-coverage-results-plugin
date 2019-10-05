@@ -1,3 +1,6 @@
+target/
+work/
+
 # Compiled class file
 *.class
 

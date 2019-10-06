@@ -46,11 +46,15 @@ import java.util.Set;
 
 public class GetCoverageResultStep extends Step {
   
-    private static String element;
+    private String element;
 
     @DataBoundConstructor
     public GetCoverageResultStep(String element) {
-      this.element = element;
+      if (element != null) {
+        this.element = element;
+      } else {
+        this.element = new String("Line");
+      }
     }
 
     @Override

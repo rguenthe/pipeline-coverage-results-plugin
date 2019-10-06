@@ -85,12 +85,12 @@ public class GetCoverageResultStep extends Step {
   
     private static class Execution extends SynchronousStepExecution<Integer> {
     
-      private int coverageValue = 0;
-      private final String element;
+      private int coverageValue = -1;
+      private String element;
 
-      Execution(StepContext context, String element) {
+      Execution(StepContext context, String elem) {
         super(context);
-        this.element = element;
+        element = elem;
       }
 
       @Override
@@ -98,10 +98,12 @@ public class GetCoverageResultStep extends Step {
 
         // Check for Code Coverage API plugin
         PluginWrapper codeCoverageApiInstalled = getInstance().pluginManager.getPlugin("code-coverage-api");
-        if (codeCoverageApiInstalled != null && codeCoverageApiInstalled.isActive()) {
+
+        if ((codeCoverageApiInstalled != null) && codeCoverageApiInstalled.isActive()) {
           CoverageAction coverageAction = getContext().get(Run.class).getAction(CoverageAction.class);
-          if (coverageAction != null) {
-            CoverageElement coverageElement = CoverageElement.get(element);
+          CoverageElement coverageElement = CoverageElement.get(element);
+
+          if ((coverageAction != null) && (coverageElement != null)) {
             coverageValue = coverageAction.getResult().getCoverage(coverageElement).getPercentage();
           }
         }

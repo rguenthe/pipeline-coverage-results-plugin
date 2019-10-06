@@ -1,4 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
-    This plugin provides methods to access code coverage results in pipeline scripts.
+    Adds a Pipeline step to access code coverage results.
 </div>

@@ -44,7 +44,7 @@ import org.kohsuke.stapler.DataBoundConstructor;
 import java.util.HashSet;
 import java.util.Set;
 
-public class GetCoverageResultStep extends Step {
+public class GetCoverageStep extends Step {
 
     private String element;
 
@@ -67,7 +67,7 @@ public class GetCoverageResultStep extends Step {
 
         @Override
         public String getFunctionName() {
-            return "getCoverageResult";
+            return "getCoverage";
         }
 
         @Override

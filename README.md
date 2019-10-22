@@ -20,10 +20,10 @@ These are examples for use with the `code-coverage-api-plugin` which provides `'
 
 ### Line coverage
 ```groovy
-def lineCoverage = getCoverageResult('Line');
+def lineCoverage = getCoverage('Line');
 ```
 
 ### Branch coverage
 ```groovy
-def conditionCoverage = getCoverageResult('Conditional');
+def conditionCoverage = getCoverage('Conditional');
 ```

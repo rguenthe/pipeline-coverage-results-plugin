@@ -7,7 +7,7 @@
         <version>3.43</version>
         <relativePath />
     </parent>
-    
+
     <properties>
         <jenkins.version>2.138.4</jenkins.version>
         <java.level>8</java.level>
@@ -16,11 +16,11 @@
     <groupId>io.jenkins.plugins</groupId>
     <name>Pipeline: Coverage Results</name>
     <artifactId>pipeline-coverage-results</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <packaging>hpi</packaging>
     <description>Access code coverage results from pipeline</description>
     <url>https://github.com/rguenthe/pipeline-coverage-results-plugin</url>
-    
+
     <licenses>
         <license>
             <name>MIT License</name>
@@ -45,7 +45,7 @@
             <version>1.1.0</version>
         </dependency>
     </dependencies>
-    
+
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>

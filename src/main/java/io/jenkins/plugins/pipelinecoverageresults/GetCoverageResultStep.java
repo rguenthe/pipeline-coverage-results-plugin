@@ -45,70 +45,70 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class GetCoverageResultStep extends Step {
-  
+
     private String element;
 
     @DataBoundConstructor
-    public GetCoverageResultStep(String element) {
-      if (element != null) {
-        this.element = element;
-      } else {
-        this.element = new String("Line");
-      }
+    public GetCoverageStep(String element) {
+        if (element != null) {
+            this.element = element;
+        } else {
+            this.element = new String("Line");
+        }
     }
 
     @Override
     public StepExecution start(StepContext context) {
-      return new Execution(context, this.element);
+        return new Execution(context, this.element);
     }
-  
+
     @Extension
     public static class DescriptorImpl extends StepDescriptor {
-  
-      @Override
-      public String getFunctionName() {
-        return "getCoverageResult";
-      }
-  
-      @Override
-      public String getDisplayName() {
-        return "Get coverage result";
-      }
 
-      @Override
-      public Set<Class<?>> getRequiredContext() {
-        Set<Class<?>> set = new HashSet<Class<?>>();
-        set.add(TaskListener.class);
-        return set;
-      }
-    }
-  
-    private static class Execution extends SynchronousStepExecution<Integer> {
-    
-      private int coverageValue = -1;
-      private String element;
-
-      Execution(StepContext context, String elem) {
-        super(context);
-        element = elem;
-      }
-
-      @Override
-      protected Integer run() throws Exception {
-
-        // Check for Code Coverage API plugin
-        PluginWrapper codeCoverageApiInstalled = getInstance().pluginManager.getPlugin("code-coverage-api");
-
-        if ((codeCoverageApiInstalled != null) && codeCoverageApiInstalled.isActive()) {
-          CoverageAction coverageAction = getContext().get(Run.class).getAction(CoverageAction.class);
-          CoverageElement coverageElement = CoverageElement.get(element);
-
-          if ((coverageAction != null) && (coverageElement != null)) {
-            coverageValue = coverageAction.getResult().getCoverage(coverageElement).getPercentage();
-          }
+        @Override
+        public String getFunctionName() {
+            return "getCoverageResult";
         }
 
-        return coverageValue;
-      }
+        @Override
+        public String getDisplayName() {
+            return "Get coverage results";
+        }
+
+        @Override
+        public Set<Class<?>> getRequiredContext() {
+            Set<Class<?>> set = new HashSet<Class<?>>();
+            set.add(Run.class);
+            return set;
+        }
     }
-  }
+
+    private static class Execution extends SynchronousStepExecution<Integer> {
+        private static final long serialVersionUID = 1L;
+
+        private int coverageValue = 0;
+        private String element;
+
+        Execution(StepContext context, String elem) {
+            super(context);
+            element = elem;
+        }
+
+        @Override
+        protected Integer run() throws Exception {
+
+            // Check for Code Coverage API plugin
+            PluginWrapper codeCoverageApiInstalled = getInstance().pluginManager.getPlugin("code-coverage-api");
+
+            if ((codeCoverageApiInstalled != null) && codeCoverageApiInstalled.isActive()) {
+                CoverageAction coverageAction = getContext().get(Run.class).getAction(CoverageAction.class);
+                CoverageElement coverageElement = CoverageElement.get(element);
+
+                if ((coverageAction != null) && (coverageElement != null)) {
+                    coverageValue = coverageAction.getResult().getCoverage(coverageElement).getPercentage();
+                }
+            }
+            return coverageValue;
+        }
+    }
+}

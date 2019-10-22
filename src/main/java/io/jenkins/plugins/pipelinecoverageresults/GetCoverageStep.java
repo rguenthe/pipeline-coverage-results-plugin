@@ -30,6 +30,7 @@ import hudson.model.TaskListener;
 
 import io.jenkins.plugins.coverage.CoverageAction;
 import io.jenkins.plugins.coverage.targets.CoverageElement;
+import io.jenkins.plugins.coverage.targets.Ratio;
 
 import org.jenkinsci.plugins.workflow.steps.Step;
 import org.jenkinsci.plugins.workflow.steps.StepContext;
@@ -46,7 +47,7 @@ import java.util.Set;
 
 public class GetCoverageStep extends Step {
 
-    private String element;
+    private final String element;
 
     @DataBoundConstructor
     public GetCoverageStep(String element) {
@@ -99,13 +100,14 @@ public class GetCoverageStep extends Step {
 
             // Check for Code Coverage API plugin
             PluginWrapper codeCoverageApiInstalled = getInstance().pluginManager.getPlugin("code-coverage-api");
-
             if ((codeCoverageApiInstalled != null) && codeCoverageApiInstalled.isActive()) {
                 CoverageAction coverageAction = getContext().get(Run.class).getAction(CoverageAction.class);
                 CoverageElement coverageElement = CoverageElement.get(element);
-
                 if ((coverageAction != null) && (coverageElement != null)) {
-                    coverageValue = coverageAction.getResult().getCoverage(coverageElement).getPercentage();
+                    Ratio coverageRatio = coverageAction.getResult().getCoverage(coverageElement);
+                    if (coverageRatio != null) {
+                        coverageValue = coverageRatio.getPercentage();
+                    }
                 }
             }
             return coverageValue;

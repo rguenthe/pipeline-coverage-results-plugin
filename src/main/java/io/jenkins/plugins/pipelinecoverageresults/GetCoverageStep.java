@@ -54,7 +54,7 @@ public class GetCoverageStep extends Step {
         if (element != null) {
             this.element = element;
         } else {
-            this.element = new String("Line");
+            this.element = "Line";
         }
     }
 
